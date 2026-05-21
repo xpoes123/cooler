@@ -1,0 +1,435 @@
+/* THE LUCKY PRO — game styles
+   Palette + type tokens lifted from design/colors_and_type.css.
+   Canvas renders the world; HUD + dialogue are DOM overlays so they can use
+   real typography per the design system (VT323 at 22px, Press Start 2P labels). */
+
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("https://fonts.gstatic.com/s/pressstart2p/v15/e3t4euO8T-267oIAQAu6jDQyK3nVivM.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "VT323";
+  src: url("https://fonts.gstatic.com/s/vt323/v17/pxiKyp0ihIEF2isfFJU.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --c-black:         #000000;
+  --c-ink:           #1a1a2e;
+  --c-slate:         #3c3c5c;
+  --c-fluoro-bone:   #bcbcbc;
+  --c-bone:          #e8e0d0;
+  --c-chocolate:     #5c2c1c;
+  --c-tobacco:       #a85820;
+  --c-sickly-yellow: #bca838;
+  --c-faded-red:     #a82820;
+  --c-dirty-teal:    #2c6c6c;
+  --c-casino-purple: #502878;
+  --c-skin:          #d8a878;
+
+  --font-pixel: "Press Start 2P", "VT323", "Courier New", ui-monospace, monospace;
+  --font-mono:  "VT323", "Courier New", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--c-black);
+  color: var(--c-bone);
+  font-family: var(--font-pixel);
+  overflow: hidden;
+  user-select: none;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+body {
+  display: grid;
+  place-items: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+#stage {
+  position: relative;
+  width: 768px;
+  height: 672px;
+  background: var(--c-ink);
+  border: 4px solid var(--c-black);
+  box-shadow: 0 0 0 4px var(--c-slate), 0 0 0 8px var(--c-black);
+  cursor: none;
+}
+
+#game {
+  width: 768px;
+  height: 672px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: transparent;
+  display: block;
+}
+
+/* HUD overlay */
+#hud {
+  position: absolute;
+  top: 12px; left: 12px; right: 12px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  z-index: 10;
+  pointer-events: none;
+  font-family: var(--font-pixel);
+  color: var(--c-bone);
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+#hud .box {
+  background: var(--c-black);
+  border: 3px solid var(--c-bone);
+  padding: 8px 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+#hud .lbl {
+  color: var(--c-sickly-yellow);
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+#hud .v {
+  color: var(--c-bone);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1;
+}
+#hud .bar {
+  display: inline-block;
+  width: 70px; height: 10px;
+  background: var(--c-slate);
+  position: relative;
+}
+#hud .bar i {
+  display: block; height: 100%;
+  background: var(--c-faded-red);
+  transition: width 200ms steps(8);
+}
+
+/* HUD glyphs — sliced out of assets/sprite_sheet.png at 3x display scale.
+   Sheet native is 256x384, display 768x1152; each glyph is 8x8 native = 24x24. */
+#hud .g {
+  display: inline-block;
+  width: 24px; height: 24px;
+  background-image: url("assets/sprite_sheet.png");
+  background-size: 768px 1152px;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+#hud .g-heart { background-position:    0px -768px; }
+#hud .g-clock { background-position:  -24px -768px; }
+#hud .g-chip  { background-position:  -48px -768px; }
+#hud .g-key   { background-position:  -72px -768px; }
+#hud .g-eye   { background-position:  -96px -768px; }
+#hud .g-alert { background-position: -120px -768px; }
+#hud .g-exit  { background-position: -144px -768px; }
+#hud .g-box   { background-position: -168px -768px; }
+#hud .g-talk  { background-position: -192px -768px; }
+#hud .g-save  { background-position: -216px -768px; }
+#hud .g-map   { background-position: -240px -768px; }
+#hud .g-cig   { background-position: -264px -768px; }
+#hud .g-lock  { background-position: -288px -768px; }
+#hud .g-note  { background-position: -312px -768px; }
+#hud .g-skull { background-position: -336px -768px; }
+#hud .g-chev  { background-position: -360px -768px; }
+
+/* Dialogue overlay */
+#dialogue {
+  position: absolute;
+  left: 24px; right: 24px; bottom: 24px;
+  background: var(--c-bone);
+  border: 4px solid var(--c-black);
+  box-shadow:
+    0 0 0 3px var(--c-sickly-yellow),
+    0 0 0 7px var(--c-black);
+  padding: 18px 22px 22px;
+  font-family: var(--font-mono);
+  color: var(--c-black);
+  font-size: 22px;
+  line-height: 1.35;
+  z-index: 20;
+  display: none;
+}
+#dialogue.active { display: block; }
+#dialogue .speaker {
+  color: var(--c-faded-red);
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  display: none;
+}
+#dialogue .speaker.show { display: block; }
+#dialogue .body { min-height: 60px; }
+#dialogue .arrow {
+  position: absolute;
+  right: 22px; bottom: 18px;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  color: var(--c-faded-red);
+  animation: blink 1s steps(2) infinite;
+  display: none;
+}
+#dialogue .arrow.show { display: block; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Inventory / pause overlay — Tab toggle. Sits over the canvas. */
+#inventory {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 20, 0.92);
+  z-index: 30;
+  display: none;
+  font-family: var(--font-pixel);
+  color: var(--c-bone);
+  padding: 24px;
+  image-rendering: pixelated;
+}
+#inventory.active { display: block; }
+#inventory .inv-banner {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 36px; line-height: 36px;
+  background: var(--c-black);
+  border-bottom: 3px solid var(--c-sickly-yellow);
+  color: var(--c-sickly-yellow);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-align: center;
+}
+#inventory .inv-panel {
+  position: absolute;
+  background: var(--c-bone);
+  color: var(--c-black);
+  border: 3px solid var(--c-black);
+  box-shadow: 6px 6px 0 var(--c-slate);
+}
+#inventory .inv-title {
+  background: var(--c-black);
+  color: var(--c-sickly-yellow);
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 6px 8px;
+  border-bottom: 3px solid var(--c-black);
+}
+#inventory .inv-body { padding: 8px; font-family: var(--font-mono); font-size: 14px; line-height: 1.2; }
+#inventory .inv-body .name {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--c-faded-red);
+  margin-bottom: 6px;
+}
+#inventory .inv-body .blurb { font-size: 14px; }
+
+#inventory .inv-bag {
+  left: 36px; top: 72px;
+  width: 360px;
+}
+#inventory .inv-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 60px);
+  grid-template-rows: repeat(4, 60px);
+  gap: 6px;
+  padding: 12px;
+}
+#inventory .inv-slot {
+  width: 60px; height: 60px;
+  background: var(--c-fluoro-bone);
+  border: 2px solid var(--c-slate);
+  position: relative;
+  display: grid; place-items: center;
+}
+#inventory .inv-slot.sel { outline: 3px solid var(--c-faded-red); outline-offset: -3px; }
+#inventory .inv-slot.empty { background: var(--c-fluoro-bone); }
+#inventory .inv-slot .sp {
+  display: block;
+  width: 48px; height: 48px;
+  background-image: url("assets/sprite_sheet.png");
+  background-size: 384px 576px;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
+#inventory .inv-slot .qty {
+  position: absolute;
+  right: 3px; bottom: 1px;
+  font-size: 10px;
+  color: var(--c-black);
+  background: var(--c-bone);
+  padding: 0 2px;
+  font-family: var(--font-pixel);
+}
+
+#inventory .inv-detail {
+  right: 36px; top: 72px;
+  width: 280px;
+  height: 156px;
+}
+
+#inventory .inv-log {
+  right: 36px; top: 252px;
+  width: 280px;
+  min-height: 168px;
+}
+#inventory .inv-log .body { font-size: 13px; line-height: 1.25; }
+#inventory .inv-log .body .name {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--c-faded-red);
+  margin-bottom: 8px;
+  font-family: var(--font-pixel);
+}
+
+#inventory .inv-keys {
+  position: absolute;
+  left: 36px; right: 36px; bottom: 24px;
+  background: var(--c-black);
+  color: var(--c-fluoro-bone);
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-around;
+}
+#inventory .inv-keys b {
+  color: var(--c-sickly-yellow);
+  font-weight: normal;
+  margin-right: 4px;
+}
+
+/* Title screen — full-stage overlay shown on boot, dismissed on first key.
+   All layout in display pixels (3x of 256x224 native = 768x672). */
+#title {
+  position: absolute;
+  inset: 0;
+  background: var(--c-black);
+  z-index: 50;
+  overflow: hidden;
+  display: none;
+  font-family: var(--font-pixel);
+  color: var(--c-bone);
+  image-rendering: pixelated;
+}
+#title.active { display: block; }
+#title .ts-sky {
+  position: absolute;
+  left: 0; right: 0; top: 0; height: 432px;
+  background: linear-gradient(180deg,
+    var(--c-casino-purple) 0%,
+    var(--c-casino-purple) 30%,
+    var(--c-faded-red) 30% 55%,
+    var(--c-tobacco) 55% 75%,
+    var(--c-sickly-yellow) 75% 82%,
+    var(--c-ink) 82% 100%);
+}
+#title .ts-stars i {
+  position: absolute;
+  width: 3px; height: 3px;
+  background: var(--c-bone);
+}
+#title .ts-skyline {
+  position: absolute;
+  left: 0; right: 0;
+  top: 270px; height: 162px;
+}
+#title .ts-skyline i {
+  position: absolute;
+  bottom: 0;
+  background: var(--c-black);
+}
+#title .ts-windows {
+  position: absolute;
+  left: 0; right: 0;
+  top: 270px; height: 162px;
+}
+#title .ts-windows i {
+  position: absolute;
+  width: 3px; height: 3px;
+  background: var(--c-sickly-yellow);
+}
+#title .ts-ground {
+  position: absolute;
+  left: 0; right: 0;
+  top: 432px; height: 96px;
+  background: var(--c-ink);
+  border-top: 3px solid var(--c-faded-red);
+}
+#title .ts-logo {
+  position: absolute;
+  left: 96px; right: 96px;
+  top: 144px;
+  text-align: center;
+  color: var(--c-sickly-yellow);
+  font-size: 42px;
+  letter-spacing: 6px;
+  line-height: 1;
+  text-shadow:
+    4px 4px 0 var(--c-faded-red),
+    8px 8px 0 var(--c-black);
+}
+#title .ts-tag {
+  display: block;
+  margin-top: 18px;
+  font-size: 11px;
+  color: var(--c-bone);
+  letter-spacing: 8px;
+  text-shadow: 2px 2px 0 var(--c-black);
+}
+#title .ts-bulbs {
+  position: absolute;
+  left: 72px; right: 72px;
+  top: 108px; height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--c-sickly-yellow) 0 6px,
+    transparent 6px 18px,
+    var(--c-bone) 18px 24px,
+    transparent 24px 36px
+  );
+}
+#title .ts-press {
+  position: absolute;
+  left: 0; right: 0;
+  top: 540px;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 6px;
+  color: var(--c-bone);
+  animation: ts-blink 1.06s steps(2) infinite;
+}
+@keyframes ts-blink { 50% { opacity: 0; } }
+#title .ts-footer {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 18px;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--c-fluoro-bone);
+}
+
+#hint {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #5a5a5a;
+  text-align: center;
+}

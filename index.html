@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>The Lucky Pro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main>
+    <div id="stage">
+      <canvas id="game" width="256" height="224" aria-label="The Lucky Pro"></canvas>
+      <div id="hud">
+        <div class="box"><span class="g g-eye" aria-hidden="true"></span><span class="lbl">HEAT</span><span class="bar"><i id="heat-bar" style="width:0%"></i></span></div>
+        <div class="box"><span class="g g-chip" aria-hidden="true"></span><span class="lbl">CHIPS</span><span class="v" id="chips-v">$0</span></div>
+        <div class="box"><span class="g g-box" aria-hidden="true"></span><span class="lbl">ITEMS</span><span class="v" id="items-v">0/8</span></div>
+      </div>
+      <div id="dialogue">
+        <div class="speaker"></div>
+        <div class="body"></div>
+        <div class="arrow">&#x25BC;</div>
+      </div>
+      <div id="inventory">
+        <div class="inv-banner">PAUSED &mdash; TAB TO RESUME</div>
+        <div class="inv-panel inv-bag">
+          <div class="inv-title">INVENTORY</div>
+          <div class="inv-grid"></div>
+        </div>
+        <div class="inv-panel inv-detail">
+          <div class="inv-title">ITEM</div>
+          <div class="inv-body">
+            <div class="name">&mdash;</div>
+            <div class="blurb">Pockets light. Carpet still loud.</div>
+          </div>
+        </div>
+        <div class="inv-panel inv-log">
+          <div class="inv-title">CASE LOG</div>
+          <div class="inv-body body"></div>
+        </div>
+        <div class="inv-keys">
+          <span><b>WASD</b> SELECT</span>
+          <span><b>TAB</b> CLOSE</span>
+        </div>
+      </div>
+      <div id="title" class="active">
+        <div class="ts-sky"></div>
+        <div class="ts-stars">
+          <i style="left: 42px;  top:  18px;"></i>
+          <i style="left: 132px; top:  12px;"></i>
+          <i style="left: 264px; top:  24px;"></i>
+          <i style="left: 420px; top:  54px;"></i>
+          <i style="left: 600px; top:  24px;"></i>
+          <i style="left: 720px; top:  42px;"></i>
+          <i style="left: 54px;  top:  72px;"></i>
+          <i style="left: 660px; top:  84px;"></i>
+        </div>
+        <div class="ts-skyline">
+          <i style="left:   0px; width: 54px;  height: 90px;"></i>
+          <i style="left:  54px; width: 42px;  height: 126px;"></i>
+          <i style="left:  96px; width: 72px;  height: 72px;"></i>
+          <i style="left: 168px; width: 54px;  height: 108px;"></i>
+          <i style="left: 222px; width: 90px;  height: 138px;"></i>
+          <i style="left: 312px; width: 42px;  height: 84px;"></i>
+          <i style="left: 354px; width: 66px;  height: 150px;"></i>
+          <i style="left: 420px; width: 54px;  height: 96px;"></i>
+          <i style="left: 474px; width: 90px;  height: 132px;"></i>
+          <i style="left: 564px; width: 48px;  height: 84px;"></i>
+          <i style="left: 612px; width: 84px;  height: 120px;"></i>
+          <i style="left: 696px; width: 72px;  height: 96px;"></i>
+        </div>
+        <div class="ts-windows">
+          <i style="left: 252px; top:  84px; background: var(--c-faded-red);"></i>
+          <i style="left: 264px; top:  84px; background: var(--c-faded-red);"></i>
+          <i style="left: 252px; top:  96px; background: var(--c-faded-red);"></i>
+          <i style="left: 372px; top:  60px;"></i>
+          <i style="left: 384px; top:  60px;"></i>
+          <i style="left: 396px; top:  60px;"></i>
+          <i style="left: 372px; top:  72px;"></i>
+          <i style="left: 396px; top:  72px;"></i>
+          <i style="left: 498px; top:  72px;"></i>
+          <i style="left: 516px; top:  72px;"></i>
+          <i style="left: 534px; top:  72px;"></i>
+          <i style="left: 720px; top:  54px; background: var(--c-faded-red);"></i>
+          <i style="left: 732px; top:  54px; background: var(--c-faded-red);"></i>
+          <i style="left: 744px; top:  54px; background: var(--c-faded-red);"></i>
+        </div>
+        <div class="ts-ground"></div>
+        <div class="ts-logo">
+          THE LUCKY PRO
+          <span class="ts-tag">&#x2605; A NIGHT OUT IN ATLANTIC CITY &#x2605;</span>
+        </div>
+        <div class="ts-bulbs"></div>
+        <div class="ts-press">&#x25BA; PRESS ANY KEY</div>
+        <div class="ts-footer">
+          <span>&copy; 2026 LUCKY PRO LTD</span>
+          <span>1 PLAYER</span>
+        </div>
+      </div>
+    </div>
+    <div id="hint">WASD MOVE &middot; E INTERACT &middot; TAB INVENTORY &middot; J JOURNAL &middot; M <span id="mute">&#x266A; ON</span> &middot; HOLD R 3S RESET</div>
+  </main>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
